@@ -8,7 +8,7 @@ export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
   @MessagePattern('create_charge')
-  async createCharge(@Payload() { card, amount }: CreateChargeDto) {
-    return this.paymentsService.createCharge(card, amount);
+  async createCharge(@Payload() { amount }: CreateChargeDto) {
+    return this.paymentsService.createCharge({ amount } as CreateChargeDto);
   }
 }
