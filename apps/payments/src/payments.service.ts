@@ -17,16 +17,18 @@ export class PaymentsService {
     card: Stripe.PaymentMethodCreateParams.Card1,
     amount: number,
   ) {
-    const paymentMethod = await this.stripe.paymentMethods.create({
-      type: 'card',
-      card,
+    const customer = await this.stripe.customers.create({
+      description: 'Test customer',
+    });
+    await this.stripe.customers.createSource(customer.id, {
+      source: 'tok_visa',
     });
     const paymentIntent = await this.stripe.paymentIntents.create({
-      payment_method: paymentMethod.id,
       amount: amount * 100,
       confirm: true,
       payment_method_types: ['card'],
       currency: 'usd',
+      customer: customer.id,
     });
     return paymentIntent;
   }
