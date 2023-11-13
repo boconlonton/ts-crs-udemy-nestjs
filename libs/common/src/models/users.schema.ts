@@ -1,13 +1,11 @@
-import { AbstractDocument } from '@app/common/database/abstract.schema';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Column, Entity } from 'typeorm';
+import { AbstractEntity } from '../database/abstract.entity';
 
-@Schema({ versionKey: false })
-export class UserDocument extends AbstractDocument {
-  @Prop()
+@Entity()
+export class User extends AbstractEntity<User> {
+  @Column()
   email: string;
 
-  @Prop()
+  @Column()
   password: string;
 }
-
-export const UserSchema = SchemaFactory.createForClass(UserDocument);

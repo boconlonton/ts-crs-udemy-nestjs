@@ -3,31 +3,26 @@ import { ReservationsService } from './reservations.service';
 import { ReservationsController } from './reservations.controller';
 import { DatabaseModule, HealthModule, LoggerModule } from '@app/common';
 import { ReservationRepository } from './reservations.repository';
-import {
-  ReservationDocument,
-  ReservationSchema,
-} from './models/reservation.schema';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AUTH_SERVICE, PAYMENT_SERVICE } from '@app/common/constants/services';
+import { Reservation } from './models/reservation.entity';
 
 @Module({
   imports: [
     DatabaseModule,
-    DatabaseModule.forFeature([
-      { name: ReservationDocument.name, schema: ReservationSchema },
-    ]),
+    DatabaseModule.forFeature([Reservation]),
     LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
         APP_PORT: Joi.number().required(),
-        MONGODB_HOST: Joi.string().required(),
-        MONGODB_PORT: Joi.string().required(),
-        MONGODB_USER: Joi.string().required(),
-        MONGODB_PASSWORD: Joi.string().required(),
-        MONGODB_DATABASE: Joi.string().required(),
+        MYSQL_DATABASE: Joi.string().required(),
+        MYSQL_PASSWORD: Joi.string().required(),
+        MYSQL_HOST: Joi.string().required(),
+        MYSQL_PORT: Joi.string().required(),
+        MYSQL_SYNCHRONIZE: Joi.string().required(),
         AUTH_SERVICE_HOST: Joi.string().required(),
         AUTH_SERVICE_PORT: Joi.string().required(),
         PAYMENT_SERVICE_HOST: Joi.string().required(),
