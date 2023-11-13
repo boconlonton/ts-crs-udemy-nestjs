@@ -11,7 +11,7 @@ services:
     volumes:
       - .:/usr/src/app
     depends_on:
-      - mongo
+      - mysql
 
   auth:
     build:
@@ -25,7 +25,7 @@ services:
     volumes:
       - .:/usr/src/app
     depends_on:
-      - mongo
+      - mysql
 
   payments:
     build:
@@ -39,7 +39,7 @@ services:
     volumes:
       - .:/usr/src/app
     depends_on:
-      - mongo
+      - mysql
 
   notifications:
     build:
@@ -51,20 +51,11 @@ services:
     volumes:
       - .:/usr/src/app
     depends_on:
-      - mongo
+      - mysql
 
-  mongo:
-    image: mongo:latest
-    restart: unless-stopped
-    env_file: ./apps/reservations/.env
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: dev
-      MONGO_INITDB_ROOT_PASSWORD: 123
-      MONGO_INITDB_DATABASE: sleepr
+  mysql:
+    image: mysql
+    env_file:
+      - .env
     ports:
-      - 27017:27017
-    volumes:
-      - db:/data/db
-
-volumes:
-  db:
+      - '3306:3306'
