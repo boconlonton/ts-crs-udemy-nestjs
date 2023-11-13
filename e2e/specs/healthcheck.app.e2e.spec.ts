@@ -17,4 +17,12 @@ describe('Health', () => {
       done();
     });
   });
+  test('Notifications', (done) => {
+    ping({ address: 'notifications', port: 3004 }, (err) => {
+      if (err) {
+        fail();
+      }
+      done();
+    });
+  });
 });
