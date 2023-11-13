@@ -30,12 +30,16 @@ services:
   payments:
     image: 'boconlonton/sleepr:payments-production'
     env_file: ../apps/payments/.env
+    ports:
+      - '3003:3003'
     depends_on:
       - mongo
 
   notifications:
     image: 'boconlonton/sleepr:notifications-production'
     env_file: ../apps/notifications/.env
+    ports:
+      - '3004:3004'
     depends_on:
       - mongo
 
